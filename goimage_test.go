@@ -3,7 +3,7 @@ package goimage
 import (
 	"bytes"
 	"github.com/stretchr/testify/require"
-	"github.com/v1990/goimage/heif"
+	"hago-base-web-realtimetranscode/transcode/processor/goimage/goimage/heif"
 	"image"
 	"io"
 	"io/ioutil"
@@ -20,6 +20,8 @@ func Test_Image(t *testing.T) {
 	os.RemoveAll(testoutDir)
 	os.MkdirAll(testoutDir, 0755)
 
+	t.Log("libheif version:", heif.GetVersion())
+
 	tests := []struct {
 		name string
 	}{
@@ -27,6 +29,8 @@ func Test_Image(t *testing.T) {
 		{"test12.png"},
 		{"test13.png"},
 		{"test14.png"},
+		{"test15.png"},
+		//{""},
 		{"test21.jpeg"},
 	}
 
@@ -61,7 +65,6 @@ func testFormat2heif(t *testing.T, img image.Image, name string, action string) 
 		name += "_" + action + ".heif"
 		outFilename := filepath.Join(testoutDir, name)
 		buf := bytes.NewBuffer(nil)
-
 
 		err := heif.Encode(buf, img)
 		require.NoError(t, err)
